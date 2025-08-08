@@ -1,12 +1,13 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 
-import { generateBind9Config, Bind9Zone } from "../src/index";
+import { generateBind9Config, Bind9Zone } from "../dist/index.js";
 import { writeFileSync, mkdirSync, statSync, existsSync } from "fs";
+import { pathToFileURL } from "url";
 import path from "path";
 
 function printHelp() {
   console.log(
-    `bindac - BIND9 IaC Compiler\n\nUsage:\n  bun run bin/compile-bind9.ts <input> <outputDir>\n\nArguments:\n  <input>         Path to your IaC TypeScript file exporting a ZoneConfig\n  <outputDir>     Output directory for BIND9 config\n\nOptions:\n  -h, --help      Show this help message\n\nExample:\n  bun run bin/compile-bind9.ts ./my-iac.ts ./dist\n`
+    `bindac - BIND9 IaC Compiler\n\nUsage:\n  bindac <input> <outputDir>\n\nArguments:\n  <input>         Path to your compiled JavaScript file exporting a ZoneConfig\n  <outputDir>     Output directory for BIND9 config\n\nOptions:\n  -h, --help      Show this help message\n\nExample:\n  # First compile TypeScript to JavaScript\n  npx tsc my-zone.ts --outDir ./compiled --target ES2022 --module ESNext\n  \n  # Then run bindac\n  bindac ./compiled/my-zone.js ./output\n  \n  # Or use the provided example\n  bindac examples/example-zone.js ./output\n\nNote: This tool works with Node.js, Bun, and Deno runtimes.`
   );
 }
 
@@ -60,8 +61,18 @@ async function main() {
 
   let zoneConfig;
   try {
-    // Dynamic import for user IaC file
-    const imported = await import(input.startsWith(".") ? input : `./${input}`);
+    // Dynamic import for user IaC file - resolve path from current working directory
+    const inputPath = path.resolve(input);
+    
+    if (inputPath.endsWith('.ts')) {
+      // For TypeScript files, recommend compiling first
+      console.error('\n⚠ TypeScript files need to be compiled to JavaScript first.');
+      console.error('Run: npx tsc ' + input + ' --outDir ./compiled --target ES2022 --module ESNext --moduleResolution Node');
+      console.error('Then use: bindac ./compiled/' + path.basename(input, '.ts') + '.js <outputDir>');
+      process.exit(1);
+    }
+    
+    const imported = await import(pathToFileURL(inputPath).href);
     zoneConfig = imported.default;
     if (!zoneConfig) throw new Error("No default export found in input file.");
   } catch (err) {
