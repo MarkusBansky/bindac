@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'BINDAC',
   description: 'BIND9 Infrastructure-as-Code library for TypeScript',
+  base: '/bindac/',
   ignoreDeadLinks: true,
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }]
