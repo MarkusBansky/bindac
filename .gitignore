@@ -29,6 +29,14 @@ build/
 tmp/
 coverage/
 
+# Documentation build output
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
+# Compiled CLI binary (built during CI/release)
+bin/bindac
+bin/dist/
+
 # OS files
 .DS_Store
 Thumbs.db

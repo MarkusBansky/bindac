@@ -1,18 +1,30 @@
 {
-  "name": "bindac",
+  "name": "@markusbansky/bindac",
   "version": "0.0.1",
+  "type": "module",
   "description": "BIND9 Infrastructure-as-Code library and Docker solution (Bun + TypeScript)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "bindac": "bin/bindac"
+    "bindac": "bin/bindac.js"
   },
   "scripts": {
-    "build": "bun build src/index.ts --outdir dist",
-    "build:cli": "bun build bin/bindac.ts --compile --target bun && mv ./bindac ./bin/bindac",
+    "build": "tsc src/index.ts --declaration --emitDeclarationOnly --outDir dist --target ES2022 --module ESNext --moduleResolution Node --allowSyntheticDefaultImports --skipLibCheck && npm run build:js",
+    "build:js": "tsc --project tsconfig.json --outDir dist --declaration false",
+    "build:cli": "tsc --project tsconfig.cli.json && cp bin/dist/bin/bindac.js bin/bindac.js",
     "docker:build": "docker build -t bindac:latest ./docker",
     "docker:run": "docker run --rm -p 53:53/udp -v $(pwd)/dist/bind9:/etc/bind bindac:latest",
-    "prepublishOnly": "bun run build:cli"
+    "prepublishOnly": "npm run build && npm run build:cli",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarkusBansky/bindac.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "author": "Markiian Benovskyi",
   "license": "MIT",
@@ -21,9 +33,25 @@
     "zod": "^4.0.15"
   },
   "devDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "vitepress": "^1.0.0"
   },
   "engines": {
     "bun": ">=1.0.0"
-  }
+  },
+  "keywords": [
+    "bind9",
+    "dns",
+    "infrastructure-as-code",
+    "typescript",
+    "bun",
+    "docker"
+  ],
+  "files": [
+    "dist/",
+    "bin/bindac.js",
+    "bin/bindac.ts",
+    "README.md",
+    "LICENSE"
+  ]
 }

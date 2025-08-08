@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "outDir": "bin/dist",
+    "declaration": false,
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "rootDir": "."
+  },
+  "include": ["bin/bindac.ts", "src/**/*"],
+  "exclude": ["dist", "node_modules", "examples", "docs"]
+}
