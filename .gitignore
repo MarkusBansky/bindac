@@ -20,7 +20,7 @@ pids/
 *.pid.lock
 
 # Build output
-dist/
+dist/*-test/
 build/
 .out/
 .next/
