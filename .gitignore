@@ -29,6 +29,10 @@ build/
 tmp/
 coverage/
 
+# Documentation build output
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
 # OS files
 .DS_Store
 Thumbs.db

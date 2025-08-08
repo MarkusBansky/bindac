@@ -8,7 +8,9 @@
     "declaration": true,
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "rootDir": "."
   },
-  "include": ["src", "bin", "examples"]
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules", "examples", "bin", "docs"]
 }

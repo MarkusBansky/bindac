@@ -37,18 +37,19 @@ async function main() {
     "/sys",
     "/run",
     "/sbin",
-    "/var",
+    "/var/log",
+    "/var/run",
     "/opt",
     "/root",
-    "/home",
-    "/tmp",
-    "/mnt",
-    "/media",
-    "/srv",
-    "/lost+found",
   ];
   const resolvedOut = path.resolve(outDir);
+  // Allow user directories, tmp, and project-relative paths
+  const isUserDir = resolvedOut.startsWith("/home/") && resolvedOut !== "/home";
+  const isTmpDir = resolvedOut.startsWith("/tmp/");
+  const isProjectRelative = !path.isAbsolute(outDir) || resolvedOut.includes(process.cwd());
+  
   if (
+    !isUserDir && !isTmpDir && !isProjectRelative &&
     forbiddenDirs.some(
       (dir) => resolvedOut === dir || resolvedOut.startsWith(dir + path.sep)
     )
