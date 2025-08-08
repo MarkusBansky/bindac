@@ -1,0 +1,27 @@
+{
+  "name": "bindac",
+  "version": "0.1.0",
+  "description": "BIND9 Infrastructure-as-Code library and Docker solution (Bun + TypeScript)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "bun build src/index.ts --outdir dist",
+    "docker:build": "docker build -t bindac:latest ./docker",
+    "docker:run": "docker run --rm -p 53:53/udp -v $(pwd)/dist/bind9:/etc/bind bindac:latest"
+  },
+  "bin": {
+    "bindac": "bin/bindac.ts"
+  },
+  "author": "Markiian Benovskyi",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^24.2.0",
+    "zod": "^4.0.15"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  }
+}
