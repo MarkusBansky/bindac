@@ -33,6 +33,9 @@ coverage/
 docs/.vitepress/dist/
 docs/.vitepress/cache/
 
+# Compiled CLI binary (built during CI/release)
+bin/bindac
+
 # OS files
 .DS_Store
 Thumbs.db

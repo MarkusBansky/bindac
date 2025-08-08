@@ -37,6 +37,14 @@ export default defineConfig({
             { text: 'Multiple Zones', link: '/examples/multiple-zones' }
           ]
         }
+      ],
+      '/api/': [
+        {
+          text: 'API Reference',
+          items: [
+            { text: 'Overview', link: '/api/' }
+          ]
+        }
       ]
     },
     socialLinks: [

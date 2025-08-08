@@ -47,7 +47,7 @@
   ],
   "files": [
     "dist/",
-    "bin/",
+    "bin/bindac.ts",
     "README.md",
     "LICENSE"
   ]
